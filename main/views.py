@@ -12,21 +12,16 @@ class PaymentView(generics.CreateAPIView):
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        print(request.data)
         serializer.is_valid(raise_exception=True)
         sender_account_no = serializer.validated_data.get('sender_account')
         receiver_account_no = serializer.validated_data.get('receiver_account')
         amount = serializer.validated_data.get('amount')
 
         sender_account_object = Account.objects.get(account_number=sender_account_no)
-        print("sender_account_object", sender_account_object)
         sender_account_number = sender_account_object.account_number
-        print("sender_account_number", sender_account_number)
         receiver_account_object = Account.objects.get(account_number=receiver_account_no)
-        print("receiver_account_object", receiver_account_object)
 
         receiver_account_number = receiver_account_object.account_number
-        print("receiver_account_number", receiver_account_number)
 
         try:
             if sender_account_number and receiver_account_number:
